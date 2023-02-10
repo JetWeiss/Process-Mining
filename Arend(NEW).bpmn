@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://bpmn.io/schema/bpmn" exporter="RunaWFE Developer Studio" exporterVersion="4.5.0">
+  <bpmn:process id="id_b8a35888-43a4-4c15-a3e2-49f6a658412e" name="Arend(NEW)">
+    <bpmn:startEvent id="ID8" name="Начало">
+      <bpmn:outgoing>ID49</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="ID49" sourceRef="ID8" targetRef="ID12"/>
+    <bpmn:userTask id="ID2" name="Подписание договора и предоставление чека об оплате">
+      <bpmn:incoming>ID30</bpmn:incoming>
+      <bpmn:outgoing>ID21</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="ID21" sourceRef="ID2" targetRef="ID7"/>
+    <bpmn:userTask id="ID11" name="Проверка подписанного договора">
+      <bpmn:incoming>ID28</bpmn:incoming>
+      <bpmn:outgoing>ID32</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="ID32" sourceRef="ID11" targetRef="ID10"/>
+    <bpmn:userTask id="ID12" name="Формирование набора критериев">
+      <bpmn:incoming>ID49</bpmn:incoming>
+      <bpmn:outgoing>ID33</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="ID33" sourceRef="ID12" targetRef="ID18"/>
+    <bpmn:userTask id="ID15" name="Передача ключей клиенту">
+      <bpmn:incoming>ID31</bpmn:incoming>
+      <bpmn:outgoing>ID45</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="ID45" sourceRef="ID15" targetRef="ID44"/>
+    <bpmn:userTask id="ID16" name="Выбор варианта">
+      <bpmn:incoming>ID60</bpmn:incoming>
+      <bpmn:outgoing>ID37</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="ID37" sourceRef="ID16" targetRef="ID6"/>
+    <bpmn:userTask id="ID18" name="Запрос в информационную систему">
+      <bpmn:incoming>ID33</bpmn:incoming>
+      <bpmn:incoming>ID54</bpmn:incoming>
+      <bpmn:incoming>ID61</bpmn:incoming>
+      <bpmn:outgoing>ID50</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="ID50" sourceRef="ID18" targetRef="ID56"/>
+    <bpmn:userTask id="ID19" name="Проверка поступления денег">
+      <bpmn:incoming>ID27</bpmn:incoming>
+      <bpmn:outgoing>ID40</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="ID40" sourceRef="ID19" targetRef="ID10"/>
+    <bpmn:scriptTask id="ID9" name="Формирование договора и соглашения о задатке">
+      <bpmn:incoming>ID51</bpmn:incoming>
+      <bpmn:outgoing>ID30</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="ID30" sourceRef="ID9" targetRef="ID2"/>
+    <bpmn:parallelGateway id="ID7" gatewayDirection="Diverging">
+      <bpmn:incoming>ID21</bpmn:incoming>
+      <bpmn:outgoing>ID27</bpmn:outgoing>
+      <bpmn:outgoing>ID28</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="ID27" sourceRef="ID7" targetRef="ID19"/>
+    <bpmn:sequenceFlow id="ID28" sourceRef="ID7" targetRef="ID11"/>
+    <bpmn:parallelGateway id="ID10" gatewayDirection="Converging">
+      <bpmn:incoming>ID32</bpmn:incoming>
+      <bpmn:incoming>ID40</bpmn:incoming>
+      <bpmn:outgoing>ID31</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="ID31" sourceRef="ID10" targetRef="ID15"/>
+    <bpmn:exclusiveGateway id="ID6" gatewayDirection="Diverging">
+      <bpmn:incoming>ID37</bpmn:incoming>
+      <bpmn:outgoing>ID46</bpmn:outgoing>
+      <bpmn:outgoing>ID47</bpmn:outgoing>
+      <bpmn:outgoing>ID51</bpmn:outgoing>
+      <bpmn:outgoing>ID53</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="ID46" name="Получено 2 отказа от клиента" sourceRef="ID6" targetRef="ID44"/>
+    <bpmn:sequenceFlow id="ID47" name="Время выбора клиента вышло (14 дней)" sourceRef="ID6" targetRef="ID44"/>
+    <bpmn:sequenceFlow id="ID51" name="Выбор одного из вариантов клиентом" sourceRef="ID6" targetRef="ID9"/>
+    <bpmn:sequenceFlow id="ID53" name="Отказ клиента от вариантов" sourceRef="ID6" targetRef="ID52"/>
+    <bpmn:endEvent id="ID44" name="Окончание">
+      <bpmn:terminateEventDefinition/>
+      <bpmn:incoming>ID45</bpmn:incoming>
+      <bpmn:incoming>ID46</bpmn:incoming>
+      <bpmn:incoming>ID47</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:scriptTask id="ID52" name="Обнуление списка вариантоа">
+      <bpmn:incoming>ID53</bpmn:incoming>
+      <bpmn:outgoing>ID54</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="ID54" sourceRef="ID52" targetRef="ID18"/>
+    <bpmn:scriptTask id="ID55" name="Обновление счетчика списка">
+      <bpmn:incoming>ID59</bpmn:incoming>
+      <bpmn:outgoing>ID60</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="ID60" sourceRef="ID55" targetRef="ID16"/>
+    <bpmn:scriptTask id="ID56" name="Обновление списка">
+      <bpmn:incoming>ID50</bpmn:incoming>
+      <bpmn:outgoing>ID58</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="ID58" sourceRef="ID56" targetRef="ID57"/>
+    <bpmn:exclusiveGateway id="ID57" default="ID59" gatewayDirection="Diverging">
+      <bpmn:incoming>ID58</bpmn:incoming>
+      <bpmn:outgoing>ID59</bpmn:outgoing>
+      <bpmn:outgoing>ID61</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="ID59" name="Отправка списка" sourceRef="ID57" targetRef="ID55"/>
+    <bpmn:sequenceFlow id="ID61" name="Новый вариант в список" sourceRef="ID57" targetRef="ID18"/>
+  </bpmn:process>
+  <bpmn:collaboration id="id_c8bf5989-1a41-4e0c-bc19-9b328ef019e9">
+    <bpmn:participant id="id_1a807ad8-8561-418f-8e32-c3daed60ab1d" name="Arend(NEW)" processRef="id_b8a35888-43a4-4c15-a3e2-49f6a658412e"/>
+  </bpmn:collaboration>
+  <bpmndi:BPMNDiagram>
+    <bpmndi:BPMNPlane bpmnElement="id_c8bf5989-1a41-4e0c-bc19-9b328ef019e9">
+      <bpmndi:BPMNShape bpmnElement="id_1a807ad8-8561-418f-8e32-c3daed60ab1d" isHorizontal="true">
+        <omgdc:Bounds x="-30" y="0" width="938" height="1831"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ID8">
+        <omgdc:Bounds x="507" y="240" width="48" height="48"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="ID49">
+        <omgdi:waypoint x="530" y="288"/>
+        <omgdi:waypoint x="529" y="326"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="ID2">
+        <omgdc:Bounds x="440" y="1296" width="168" height="108"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="ID21">
+        <omgdi:waypoint x="524" y="1404"/>
+        <omgdi:waypoint x="525" y="1440"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="ID11">
+        <omgdc:Bounds x="261" y="1516" width="168" height="108"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="ID32">
+        <omgdi:waypoint x="429" y="1618"/>
+        <omgdi:waypoint x="502" y="1660"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="ID12">
+        <omgdc:Bounds x="417" y="326" width="224" height="89"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="ID33">
+        <omgdi:waypoint x="528" y="415"/>
+        <omgdi:waypoint x="527" y="476"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="ID15">
+        <omgdc:Bounds x="442" y="1726" width="168" height="69"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="ID45">
+        <omgdi:waypoint x="610" y="1761"/>
+        <omgdi:waypoint x="830" y="1763"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="ID16">
+        <omgdc:Bounds x="440" y="976" width="168" height="69"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="ID37">
+        <omgdi:waypoint x="524" y="1045"/>
+        <omgdi:waypoint x="524" y="1080"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="ID18">
+        <omgdc:Bounds x="417" y="476" width="220" height="89"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="ID50">
+        <omgdi:waypoint x="528" y="565"/>
+        <omgdi:waypoint x="530" y="634"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="ID19">
+        <omgdc:Bounds x="621" y="1516" width="168" height="108"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="ID40">
+        <omgdi:waypoint x="621" y="1618"/>
+        <omgdi:waypoint x="550" y="1659"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="ID9">
+        <omgdc:Bounds x="442" y="1166" width="168" height="89"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="ID30">
+        <omgdi:waypoint x="525" y="1255"/>
+        <omgdi:waypoint x="524" y="1296"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="ID7">
+        <omgdc:Bounds x="502" y="1440" width="48" height="48"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="ID27">
+        <omgdi:waypoint x="550" y="1478"/>
+        <omgdi:waypoint x="621" y="1520"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="ID28">
+        <omgdi:waypoint x="502" y="1478"/>
+        <omgdi:waypoint x="429" y="1520"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="ID10">
+        <omgdc:Bounds x="502" y="1650" width="48" height="48"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="ID31">
+        <omgdi:waypoint x="526" y="1698"/>
+        <omgdi:waypoint x="526" y="1726"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="ID6">
+        <omgdc:Bounds x="500" y="1080" width="48" height="48"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="ID46">
+        <omgdi:waypoint x="500" y="1104"/>
+        <omgdi:waypoint x="240" y="1104"/>
+        <omgdi:waypoint x="240" y="1468"/>
+        <omgdi:waypoint x="240" y="1810"/>
+        <omgdi:waypoint x="853" y="1810"/>
+        <omgdi:waypoint x="853" y="1788"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="ID47">
+        <omgdi:waypoint x="548" y="1103"/>
+        <omgdi:waypoint x="853" y="1103"/>
+        <omgdi:waypoint x="853" y="1740"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="ID51">
+        <omgdi:waypoint x="524" y="1128"/>
+        <omgdi:waypoint x="524" y="1166"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="ID53">
+        <omgdi:waypoint x="500" y="1087"/>
+        <omgdi:waypoint x="316" y="960"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="ID44">
+        <omgdc:Bounds x="830" y="1740" width="48" height="48"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ID52">
+        <omgdc:Bounds x="146" y="846" width="168" height="108"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="ID54">
+        <omgdi:waypoint x="272" y="846"/>
+        <omgdi:waypoint x="491" y="565"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="ID55">
+        <omgdc:Bounds x="448" y="814" width="168" height="79"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="ID60">
+        <omgdi:waypoint x="529" y="893"/>
+        <omgdi:waypoint x="525" y="976"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="ID56">
+        <omgdc:Bounds x="448" y="634" width="168" height="69"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="ID58">
+        <omgdi:waypoint x="532" y="703"/>
+        <omgdi:waypoint x="532" y="728"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="ID57">
+        <omgdc:Bounds x="508" y="728" width="48" height="48"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="ID59">
+        <omgdi:waypoint x="532" y="776"/>
+        <omgdi:waypoint x="532" y="814"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="ID61">
+        <omgdi:waypoint x="556" y="755"/>
+        <omgdi:waypoint x="901" y="800"/>
+        <omgdi:waypoint x="921" y="597"/>
+        <omgdi:waypoint x="637" y="541"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
